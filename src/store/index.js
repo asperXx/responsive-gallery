@@ -24,13 +24,14 @@ export default new Vuex.Store({
     GET_IMAGE_FROM_URL({commit}, picture) {
       commit('SET_IMAGE_FROM_URL',picture)
     },
-    GET_IMAGES_FROM_JSON_URL: async (context, images) => {
-      let {data} = await axios.get(images);
+    GET_IMAGES_FROM_JSON_URL: async (context) => {
+      let {data} = await axios.get("https://api.jsonbin.io/b/5f4e3eeb993a2e110d3c2046/2");
       console.log(data);
       context.commit('SET_IMAGES_FROM_JSON_URL', data.galleryImages);
     },
   },
   getters: {
-    IMAGES: s=> s.images
+    IMAGES: s=> s.images,
+    IMAGE_BY_ID: s => id => s.images[id]
   }
 })
