@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="upload">
+  <div class="upload" >
+    <div class="upload__container">
       <input
         type="text"
         class="upload__url"
@@ -14,7 +14,15 @@
       </p>
       <div class="upload__buttons">
         <button class="button" @click="switchURL();isJSON = !isJSON; ">Switch</button>
-        <button class="button" @click="findSizeImg();">Upload</button>
+        <button class="button" @click="findSizeImg(); overlay = true">Upload</button>
+      </div>
+    </div>
+    <div class="preloader" v-if="overlay">
+      <div class="preloader__container">
+        <div class="dash uno"></div>
+        <div class="dash dos"></div>
+        <div class="dash tres"></div>
+        <div class="dash cuatro"></div>
       </div>
     </div>
   </div>
@@ -32,6 +40,7 @@ export default {
       placeholder: "Enter the link to the JSON file",
       inputURL: "",
       isJSON: true,
+      overlay: false
     };
   },
   methods: {
@@ -81,26 +90,17 @@ export default {
       }
     },
   },
+   watch: {
+    overlay(val) {
+      val &&
+        setTimeout(() => {
+          this.overlay = false;
+        }, 1000);
+    }
+  },
 };
 </script>
 
 <style lang="scss">
 @import "../assets/styles/main.scss";
-
-.container {
-  max-width: 860px;
-  min-width: 320px;
-}
-.upload {
-  display: flex;
-  flex-direction: column;
-  &__buttons {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-  &__url {
-    width: 100%;
-  }
-}
 </style>

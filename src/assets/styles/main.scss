@@ -5,5 +5,77 @@
 @import "popup.scss";
 
 // Переменные
-@import "variables.scss"
+@import "variables.scss";
 
+// Анимация загрузки
+@import "preloader.scss";
+
+// Галерея
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 860px;
+  min-width: 320px;
+  .gallery__item {
+    margin: 2px;
+    cursor: pointer;
+    justify-content: center;
+    &:hover {
+      opacity: 0.9;
+    }
+
+    img {
+      user-select: none;
+      width: 100%;
+      vertical-align: middle;
+    }
+  }
+
+  &::after {
+    content: "";
+    flex-grow: 99999;
+    min-width: calc(100vw / 4);
+  }
+
+  //Full width in mobile
+  @media (max-width: 460px) {
+    flex-direction: column;
+    a {
+      width: 100% !important;
+    }
+  }
+}
+
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  min-width: 319px;
+  padding-bottom: 20px;
+  &__container {
+    width: 100%;
+  }
+  &__buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  &__url {
+    width: 100%;
+  }
+  input {
+    width: 90%;
+    padding: 5px;
+    box-sizing: border-box;
+    outline: none;
+    @media screen and (max-width: 320px) {
+      margin-left: 15px;
+    }
+  }
+}

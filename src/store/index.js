@@ -18,7 +18,11 @@ export default new Vuex.Store({
         state.images.unshift(imagesJSON[i])
       }
       localStorage.setItem('images', JSON.stringify(state.images))
-    }
+    },
+    DELETE_IMAGE(state, id) {
+      state.images.splice(id, 1);
+      localStorage.setItem('images', JSON.stringify(state.images))
+    },
   },
   actions: {
     GET_IMAGE_FROM_URL({commit}, picture) {
@@ -28,6 +32,9 @@ export default new Vuex.Store({
       let {data} = await axios.get("https://api.jsonbin.io/b/5f4e3eeb993a2e110d3c2046/2");
       console.log(data);
       context.commit('SET_IMAGES_FROM_JSON_URL', data.galleryImages);
+    },
+    DELETE_IMAGE({commit}, id) {
+      commit('DELETE_IMAGE',id)
     },
   },
   getters: {
