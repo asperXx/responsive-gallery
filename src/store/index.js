@@ -21,7 +21,6 @@ export default new Vuex.Store({
     },
     DELETE_IMAGE(state, id) {
       state.images.splice(id, 1);
-      console.log(state.images)
       localStorage.setItem('images', JSON.stringify(state.images))
     },
   },

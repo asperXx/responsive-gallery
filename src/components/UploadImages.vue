@@ -13,8 +13,7 @@
         <input readonly="readonly" @click="$event.target.select();" v-model="URL" />
       </p>
       <div class="upload__buttons">
-        <button class="button" @click="switchURL();isJSON = !isJSON; ">Switch</button>
-        <button class="button" @click="findSizeImg(); overlay = true">Upload</button>
+        <button class="button" @click="typeOfURL(inputURL); findSizeImg(); overlay = true">Upload</button>
       </div>
     </div>
     <div class="preloader" v-if="overlay">
@@ -30,6 +29,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -47,7 +47,6 @@ export default {
     ...mapActions(["GET_IMAGE_FROM_URL", "GET_IMAGES_FROM_JSON_URL"]),
     // Добавление картинки или json файла
     uploadImages() {
-      console.log(this.isJSON);
       if (this.isJSON == false) {
         this.GET_IMAGE_FROM_URL({
           url: this.inputURL,
@@ -78,17 +77,16 @@ export default {
         newImg.src = this.inputURL;
       }
     },
-    // Смена JSON ссылки на image
-    switchURL() {
-      if (!this.isJSON) {
-        this.URL = "https://api.jsonbin.io/b/5f4e3eeb993a2e110d3c2046/2";
-        this.placeholder = "Enter the link to the JSON file";
+    async typeOfURL(url) {
+      let {data} = await axios.get(url);
+      if (typeof data == "object") {
+        
+      this.isJSON = true;
       } else {
-        this.URL =
-          "https://avatars.mds.yandex.net/get-pdb/367895/727a996a-b45e-4a70-bcf5-20ed6685f3ed/s1200";
-        this.placeholder = "Enter the link to the image";
-      }
-    },
+        this.isJSON = false;
+        console.log('2')
+        }
+    }
   },
    watch: {
     overlay(val) {
