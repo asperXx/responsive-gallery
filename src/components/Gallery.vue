@@ -28,12 +28,12 @@
           <div class="modal__slider">
             <div
               class="modal__arrow-prev"
-              @click="imageId--; imageId < 0 ? imageId = 0 : imageId--"
+              @click=" imageId < 0 ? imageId = 0 : imageId--"
             ></div>
             <img :src="modalImage.url" alt />
             <div
               class="modal__arrow-next"
-              @click="imageId++; imageId > IMAGES.length-1 ? imageId = IMAGES.length-1 : imageId++"
+              @click=" (imageId < IMAGES.length-1) ? imageId++ : (imageId = IMAGES.length-1)"
             ></div>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default {
       dragAndDropCapable: false,
       files: [],
       src: "",
-      justifyScale: screen.height * 0.2,
+      justifyScale: innerHeight * 0.2,
       imgHeight: null,
       imgWidth: null,
       isModal: false,
@@ -135,7 +135,11 @@ export default {
       newImg.src = this.src;
     },
     deleteImage() {
-      this.DELETE_IMAGE(this.imageId);
+      if (this.imageId == this.IMAGES.length-1) {
+        this.imageId--;
+        this.DELETE_IMAGE(this.imageId+1);
+      } else {this.DELETE_IMAGE(this.imageId);}
+
     }
   },
   computed: {

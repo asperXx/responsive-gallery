@@ -21,6 +21,7 @@ export default new Vuex.Store({
     },
     DELETE_IMAGE(state, id) {
       state.images.splice(id, 1);
+      console.log(state.images)
       localStorage.setItem('images', JSON.stringify(state.images))
     },
   },
@@ -28,9 +29,8 @@ export default new Vuex.Store({
     GET_IMAGE_FROM_URL({commit}, picture) {
       commit('SET_IMAGE_FROM_URL',picture)
     },
-    GET_IMAGES_FROM_JSON_URL: async (context) => {
-      let {data} = await axios.get("https://api.jsonbin.io/b/5f4e3eeb993a2e110d3c2046/2");
-      console.log(data);
+    GET_IMAGES_FROM_JSON_URL: async (context, url) => {
+      let {data} = await axios.get(url);
       context.commit('SET_IMAGES_FROM_JSON_URL', data.galleryImages);
     },
     DELETE_IMAGE({commit}, id) {
