@@ -1,19 +1,19 @@
 <template>
-  <div class="upload" >
+  <div class="upload">
     <div class="upload__container">
       <input
         type="text"
         class="upload__url"
         @click="$event.target.select();"
         v-model="inputURL"
-        :placeholder="placeholder"
+        placeholder="Enter the URL to JSON or image"
       />
       <p class="upload__example-link">
         For example :
         <input readonly="readonly" @click="$event.target.select();" v-model="URL" />
       </p>
       <div class="upload__buttons">
-        <button class="button" @click="typeOfURL(inputURL); findSizeImg(); overlay = true">Upload</button>
+        <button class="button" @click="typeOfURL(inputURL); overlay = true">Upload</button>
       </div>
     </div>
     <div class="preloader" v-if="overlay">
@@ -37,10 +37,9 @@ export default {
       URL: "https://api.jsonbin.io/b/5f4e3eeb993a2e110d3c2046/2",
       imgHeight: null,
       imgWidth: null,
-      placeholder: "Enter the link to the JSON file",
       inputURL: "",
       isJSON: true,
-      overlay: false
+      overlay: false,
     };
   },
   methods: {
@@ -56,6 +55,7 @@ export default {
       } else {
         if (this.inputURL !== "") {
           this.GET_IMAGES_FROM_JSON_URL(this.inputURL);
+          
         }
       }
     },
@@ -78,23 +78,28 @@ export default {
       }
     },
     async typeOfURL(url) {
-      let {data} = await axios.get(url);
-      if (typeof data == "object") {
-        
-      this.isJSON = true;
-      } else {
-        this.isJSON = false;
-        console.log('2')
+      try {
+        let { data } = await axios.get(url);
+        if (typeof data == "object") {
+          this.isJSON = true;
+          this.findSizeImg();
+        } else {
+          this.isJSON = false;
+          this.findSizeImg();
         }
-    }
+      } catch {
+        this.isJSON = false;
+        this.findSizeImg();
+      }
+    },
   },
-   watch: {
+  watch: {
     overlay(val) {
       val &&
         setTimeout(() => {
           this.overlay = false;
         }, 1000);
-    }
+    },
   },
 };
 </script>

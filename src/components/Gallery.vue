@@ -19,17 +19,14 @@
         <div class="modal__container">
           <div class="modal__menu">
             <div class="modal__delete-image" @click="deleteImage">
-              <font-awesome-icon icon="trash" size="lg"/>
+              <font-awesome-icon icon="trash" size="lg" />
             </div>
             <div class="modal__close" @click="isModal = false">
               <font-awesome-icon icon="times" size="lg" />
             </div>
           </div>
           <div class="modal__slider">
-            <div
-              class="modal__arrow-prev"
-              @click=" imageId < 0 ? imageId = 0 : imageId--"
-            ></div>
+            <div class="modal__arrow-prev" @click=" imageId < 0 ? imageId = 0 : imageId--"></div>
             <img :src="modalImage.url" alt />
             <div
               class="modal__arrow-next"
@@ -135,12 +132,16 @@ export default {
       newImg.src = this.src;
     },
     deleteImage() {
-      if (this.imageId == this.IMAGES.length-1) {
+      if (this.imageId == this.IMAGES.length - 1) {
         this.imageId--;
-        this.DELETE_IMAGE(this.imageId+1);
-      } else {this.DELETE_IMAGE(this.imageId);}
-
-    }
+        this.DELETE_IMAGE(this.imageId + 1);
+      } else {
+        this.DELETE_IMAGE(this.imageId);
+      }
+      if (this.IMAGES.length == 0) {
+        this.isModal = false;
+      }
+    },
   },
   computed: {
     ...mapGetters(["IMAGES", "IMAGE_BY_ID"]),
